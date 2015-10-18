@@ -7,6 +7,5 @@ public class Init {
     public static void main(String[] args) {         
         HomeController home = new HomeController();
         home.index();        
-    }
-    
+    }    
 }

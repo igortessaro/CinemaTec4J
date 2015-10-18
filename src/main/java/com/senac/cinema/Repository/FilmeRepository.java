@@ -28,10 +28,10 @@ public class FilmeRepository extends CrudBD<Filme>{
             pstm.setInt(2, entity.getGenero().getValue());
             pstm.setString(3, entity.getSinopse());
 
-            //logger.debug("Salvando: " + bean);
+            logger.debug("Salvando: " + entity);
             pstm.execute();
             commitTransacao(conn);
-            //logger.debug("Salvamento executado com sucesso");
+            logger.debug("Salvamento executado com sucesso");
         } catch (Exception e) {
             rollbackTransacao(conn);
             throw new RuntimeException(e);
