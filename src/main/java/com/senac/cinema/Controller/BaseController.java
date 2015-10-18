@@ -15,9 +15,14 @@ public abstract class BaseController implements IBaseController{
     
     @Override
     public void index() {
-        Console.imprimir("");
+        Console.pularLinha();
         Console.imprimirTituloCadastro(this.tituloPagina);
-        
+        Console.pularLinha();
+        Console.pularLinha();
+        this.adicionar();
     }
     
+    public void adicionar(){
+        
+    }    
 }

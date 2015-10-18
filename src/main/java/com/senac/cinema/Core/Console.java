@@ -22,8 +22,8 @@ public class Console {
         System.out.print(texto);
     }
     
-    private static void pularLinha() {
-        imprimir("");
+    public static void pularLinha() {
+        System.out.println("");
     }
     
     public static String lerString(String texto) {        
@@ -54,7 +54,7 @@ public class Console {
         return valor;
     }
     
-    public static String lerEnum(String texto, Class<? extends Enum> clazz) {
+    public static int lerEnum(String texto, Class<? extends Enum> clazz) {
         HashMap<Integer, String> hm = new HashMap<>();
         int o = 1;
         for(Object obj : EnumSet.allOf(clazz)) {
@@ -64,10 +64,11 @@ public class Console {
             hm.put(o, e.name());
             o++;
         }
-        imprimir("Qual a sua opção? ");
+        pularLinha();
+        imprimir(texto);
         Integer valor = scanner.nextInt();
         pularLinha();
-        return hm.get(valor);
+        return valor;
     }
     
     public static void imprimirTituloCadastro(String titulo){
