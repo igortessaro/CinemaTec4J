@@ -86,6 +86,34 @@ public class SalaRepository extends CrudBD<Sala>{
         return result;
     }
     
+    public Sala searchById(int id){
+        Connection conn = null;        
+        Sala result = null;
+        
+        try {
+            conn = abrirConexao();
+            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM sala WHERE id=?");
+            pstm.setInt(1, id);
+            logger.debug("Consultando sala por id: " + id);
+            ResultSet rs = pstm.executeQuery();
+            
+            if (rs.next()) {
+                logger.debug("Registro encontrado");
+                result = new Sala();
+                result.setId(rs.getInt("id"));
+                result.setNumero(rs.getInt("numero"));
+                result.setQuantidadeAssentos(rs.getInt("quantidadeAssentos"));
+            }
+            logger.debug("Consulta executada com sucesso");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            this.fecharConexao(conn);
+        }
+        
+        return result;
+    }
+    
     public List<Sala> searchAll(){
         List<Sala> salaList = new ArrayList<>();
         

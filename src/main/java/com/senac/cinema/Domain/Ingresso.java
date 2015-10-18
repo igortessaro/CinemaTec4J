@@ -5,7 +5,7 @@ public class Ingresso {
     
     private int secaoId;
     
-    private float valor;
+    private double valor;
 
     public int getId() {
         return id;
@@ -23,11 +23,11 @@ public class Ingresso {
         this.secaoId = secaoId;
     }
 
-    public float getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(float valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 }

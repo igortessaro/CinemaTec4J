@@ -39,7 +39,7 @@ public class HomeController {
                 this.redirectController(new SecaoController());
                 break;
             case PrincipalView.opcaoVendaIngressoMenuPrincipal:
-                //this.redirectController(new FilmeController());
+                this.redirectController(new IngressoController());
                 break;
             default:
                 ExceptionDefaultMessage.opcaoInvalida();

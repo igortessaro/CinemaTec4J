@@ -2,12 +2,23 @@ package com.senac.cinema.Repository;
 
 import com.senac.cinema.Domain.Secao;
 import com.senac.cinema.BaseRepository.CrudBD;
+import com.senac.cinema.Domain.Filme;
+import com.senac.cinema.Domain.Sala;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SecaoRepository extends CrudBD<Secao>{
-
+    private FilmeRepository filmeRepository;
+    private SalaRepository salaRepository;
+    
+    public SecaoRepository(){
+        this.filmeRepository = new FilmeRepository();
+        this.salaRepository = new SalaRepository();
+    }
+    
     @Override
     public void save(Secao entity) {
         Connection conn = null;
@@ -57,4 +68,56 @@ public class SecaoRepository extends CrudBD<Secao>{
     public List<Secao> search(String search) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }    
+
+    public List<Secao> searchAll() {
+        List<Secao> secaoList = new ArrayList<>();
+        
+        Connection conn = null;
+        try {
+            conn = abrirConexao();
+
+            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM secao");
+
+            logger.debug("Consultando todos filmes. ");
+            ResultSet rs = pstm.executeQuery();
+            
+            while (rs.next()) {
+                Filme filme = null;
+                Sala sala = null;
+                
+                logger.debug("Registro encontrado");
+                Secao result = new Secao();
+                result.setId(rs.getInt("id"));
+                result.setDataHoraInicio(rs.getDate("dataHoraInicio"));
+                result.setTempoDuracaoMinutos(rs.getInt("tempoDuracaoMinutos"));
+                result.setFilmeId(rs.getInt("filmeId"));
+                result.setSalaId(rs.getInt("salaId"));
+                
+                int filmeId = result.getFilmeId();
+                
+                if(filmeId > 0)
+                    filme = this.filmeRepository.searchByID(filmeId);
+                
+                if(filme != null)
+                    result.setFilme(filme);
+                
+                int salaId = result.getSalaId();
+                
+                if(salaId > 0)
+                    sala = this.salaRepository.searchById(salaId);
+                
+                if(sala != null)
+                    result.setSala(sala);
+                
+                secaoList.add(result);
+            }
+            logger.debug("Consulta executada com sucesso");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            fecharConexao(conn);
+        }        
+        
+        return secaoList;
+    }
 }

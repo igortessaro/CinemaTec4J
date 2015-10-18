@@ -4,6 +4,7 @@ import com.senac.cinema.BaseRepository.CrudBD;
 import com.senac.cinema.BaseRepository.TypeOperation;
 import com.senac.cinema.Domain.Secao;
 import com.senac.cinema.Repository.SecaoRepository;
+import java.util.HashMap;
 import java.util.List;
 
 public class SecaoService extends CrudBD<Secao>{
@@ -67,5 +68,19 @@ public class SecaoService extends CrudBD<Secao>{
     }
     
     private void validateUpdate(Secao entity){        
+    }
+
+    public HashMap<Integer, Secao> searchAll() {
+        HashMap<Integer, Secao> hm = new HashMap<>();
+        
+        List<Secao> secaoList = this.repository.searchAll();
+        
+        for (Secao secao : secaoList) {
+            if(secao == null) continue;
+            
+            hm.put(secao.getId(), secao);
+        }
+        
+        return hm;
     }
 }
