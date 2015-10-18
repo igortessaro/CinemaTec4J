@@ -4,6 +4,7 @@ import com.senac.cinema.BaseRepository.CrudBD;
 import com.senac.cinema.BaseRepository.TypeOperation;
 import com.senac.cinema.Domain.Filme;
 import com.senac.cinema.Repository.FilmeRepository;
+import java.util.HashMap;
 import java.util.List;
 
 public class FilmeService extends CrudBD<Filme>{
@@ -39,6 +40,20 @@ public class FilmeService extends CrudBD<Filme>{
     @Override
     public List<Filme> search(String search) {
         return this.repository.search(search);
+    }
+    
+    public HashMap<Integer, Filme> searchAll(){
+        HashMap<Integer, Filme> hm = new HashMap<>();
+        
+        List<Filme> filmeList = this.repository.searchAll();
+        
+        for (Filme filme : filmeList) {
+            if(filme == null) continue;
+            
+            hm.put(filme.getId(), filme);
+        }
+        
+        return hm;
     }
     
     private void validateRules(Filme entity, TypeOperation operation){

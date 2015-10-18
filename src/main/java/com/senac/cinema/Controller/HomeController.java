@@ -36,7 +36,7 @@ public class HomeController {
                 this.redirectController(new SalaController());
                 break;
             case PrincipalView.opcaoCadastroSecaoMenuPrincipal:
-                //this.redirectController(new FilmeController());
+                this.redirectController(new SecaoController());
                 break;
             case PrincipalView.opcaoVendaIngressoMenuPrincipal:
                 //this.redirectController(new FilmeController());

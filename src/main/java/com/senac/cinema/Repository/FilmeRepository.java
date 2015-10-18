@@ -87,7 +87,40 @@ public class FilmeRepository extends CrudBD<Filme>{
         }        
         
         return filmeList;
-    }    
+    }
+    
+    public List<Filme> searchAll(){
+        List<Filme> filmeList = new ArrayList<>();
+        
+        Connection conn = null;
+        try {
+            conn = abrirConexao();
+
+            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM filme");
+
+            logger.debug("Consultando todos filmes. ");
+            ResultSet rs = pstm.executeQuery();
+            
+            while (rs.next()) {
+                logger.debug("Registro encontrado");
+                Filme filmeResult = new Filme();
+                
+                filmeResult.setId(rs.getInt("id"));
+                filmeResult.setNome(rs.getString("nome"));
+                filmeResult.setGenero(Genero.fromInteger(rs.getInt("genero")));
+                filmeResult.setSinopse(rs.getString("sinopse"));
+                
+                filmeList.add(filmeResult);
+            }
+            logger.debug("Consulta executada com sucesso");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            fecharConexao(conn);
+        }        
+        
+        return filmeList;
+    }
     
     public Filme searchByID(int id){
         
