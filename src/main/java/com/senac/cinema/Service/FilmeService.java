@@ -56,6 +56,10 @@ public class FilmeService extends CrudBD<Filme>{
         return hm;
     }
     
+    public List<Filme> obterTodos(){        
+        return this.repository.searchAll();
+    }
+    
     private void validateRules(Filme entity, TypeOperation operation){
         switch(operation){
             case Delete:

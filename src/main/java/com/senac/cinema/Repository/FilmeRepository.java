@@ -52,7 +52,36 @@ public class FilmeRepository extends CrudBD<Filme>{
 
     @Override
     public void update(Filme entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //PreparedStatement pstm = conn.prepareStatement("UPDATE FROM filme SET nome = ?, genero = ?, sinopse = ? WHERE id = ?");
+        
+        Connection conn = null;
+        try {
+            conn = abrirConexao();
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("UPDATE ");
+            sql.append(" filme  ");
+            sql.append(" SET ");
+            sql.append(" nome = ?, genero = ?, sinopse = ? ");
+            sql.append(" WHERE  ");
+            sql.append(" id = ? ");
+
+            PreparedStatement pstm = conn.prepareStatement(sql.toString());
+            pstm.setString(1, entity.getNome());
+            pstm.setInt(2, entity.getGenero().getValue());
+            pstm.setString(3, entity.getSinopse());
+            pstm.setInt(4, entity.getId());
+
+            logger.debug("Atualizando: " + entity);
+            pstm.execute();
+            commitTransacao(conn);
+            logger.debug("Atualizado com sucesso");
+        } catch (Exception e) {
+            rollbackTransacao(conn);
+            throw new RuntimeException(e);
+        } finally {
+            fecharConexao(conn);
+        }
     }
 
     @Override

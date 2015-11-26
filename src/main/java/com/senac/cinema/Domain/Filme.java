@@ -1,12 +1,18 @@
 package com.senac.cinema.Domain;
 
+import com.jdf.swing.helper.jtable.JTableColumnMetadata;
+
 public class Filme {
+    @JTableColumnMetadata(name = "Código")
     private int id;
     
+    @JTableColumnMetadata(name = "Nome")
     private String nome;
     
+    @JTableColumnMetadata(name = "Genero")
     private Genero genero;
     
+    @JTableColumnMetadata(name = "Sinopse")
     private String sinopse;
 
     public int getId() {
