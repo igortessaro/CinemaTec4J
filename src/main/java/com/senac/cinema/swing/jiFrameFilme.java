@@ -196,7 +196,7 @@ public class jiFrameFilme extends javax.swing.JInternalFrame {
     private void tbFilmesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbFilmesMouseClicked
         txtCodigo.setText(String.format("%s", tableHelper.getSelectedObject().getId()));
         txtNome.setText(tableHelper.getSelectedObject().getNome());
-        
+        /*
         String generoString;
         generoString = "(Selecione)";
         
@@ -219,7 +219,7 @@ public class jiFrameFilme extends javax.swing.JInternalFrame {
                 generoString = "Terror";
             default:
                 throw new IllegalArgumentException("Gênero não encontrado!");
-        }
+        }*/
         
         cbGenero.setSelectedItem(tableHelper.getSelectedObject().getGenero());
         txtSinopse.setText(tableHelper.getSelectedObject().getSinopse());
