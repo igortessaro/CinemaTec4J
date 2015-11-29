@@ -42,6 +42,14 @@ public class SalaService extends CrudBD<Sala>{
         return this.repository.search(search);
     } 
     
+    public List<Sala> obterPorNumero(int numero){
+        return this.repository.searchAllByNumero(numero);
+    }
+    
+    public List<Sala> obterTodos() {
+        return this.repository.searchAll();
+    }
+    
     public HashMap<Integer, Sala> searchAll(){
         HashMap<Integer, Sala> hm = new HashMap<>();
         
@@ -83,7 +91,9 @@ public class SalaService extends CrudBD<Sala>{
             throw new IllegalArgumentException("Sala já existente.");
     }
     
-    private void validateDelete(Sala entity){        
+    private void validateDelete(Sala entity){
+        if(entity.getId() == 0)
+            throw new IllegalArgumentException("Código da sala não informado...");
     }
     
     private void validateUpdate(Sala entity){        

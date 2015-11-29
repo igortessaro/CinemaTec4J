@@ -40,7 +40,28 @@ public class SalaRepository extends CrudBD<Sala>{
 
     @Override
     public void delete(Sala entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection conn = null;
+        try {
+            conn = abrirConexao();
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("DELETE FROM sala  ");
+            sql.append("WHERE  ");
+            sql.append(" id = ? ");
+
+            PreparedStatement pstm = conn.prepareStatement(sql.toString());
+            pstm.setInt(1, entity.getId());
+
+            logger.debug("Excluindo: " + entity);
+            pstm.execute();
+            commitTransacao(conn);
+            logger.debug("Exclusão executada com sucesso");
+        } catch (Exception e) {
+            rollbackTransacao(conn);
+            throw new RuntimeException(e);
+        } finally {
+            fecharConexao(conn);
+        }
     }
 
     @Override
@@ -50,7 +71,31 @@ public class SalaRepository extends CrudBD<Sala>{
 
     @Override
     public void update(Sala entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection conn = null;
+        try {
+            conn = abrirConexao();
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("UPDATE sala  ");
+            sql.append(" SET numero = ?, quantidadeAssentos = ?  ");
+            sql.append(" WHERE  ");
+            sql.append(" id = ? ");
+
+            PreparedStatement pstm = conn.prepareStatement(sql.toString());
+            pstm.setInt(1, entity.getNumero());
+            pstm.setInt(2, entity.getQuantidadeAssentos());
+            pstm.setInt(3, entity.getId());
+
+            logger.debug("Atualizado: " + entity);
+            pstm.execute();
+            commitTransacao(conn);
+            logger.debug("Atualizado com sucesso");
+        } catch (Exception e) {
+            rollbackTransacao(conn);
+            throw new RuntimeException(e);
+        } finally {
+            fecharConexao(conn);
+        }
     }
 
     @Override
@@ -75,6 +120,36 @@ public class SalaRepository extends CrudBD<Sala>{
                 result.setId(rs.getInt("id"));
                 result.setNumero(rs.getInt("numero"));
                 result.setQuantidadeAssentos(rs.getInt("quantidadeAssentos"));
+            }
+            logger.debug("Consulta executada com sucesso");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            this.fecharConexao(conn);
+        }
+        
+        return result;
+    }
+    
+    public List<Sala> searchAllByNumero(int numero){
+        Connection conn = null;        
+        List<Sala> result = new ArrayList<>();
+        
+        try {
+            conn = abrirConexao();
+            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM sala WHERE numero=?");
+            pstm.setInt(1, numero);
+            logger.debug("Consultando sala por número: " + numero);
+            ResultSet rs = pstm.executeQuery();
+            
+            while (rs.next()) {
+                logger.debug("Registro encontrado");
+                Sala sala = new Sala();
+                sala.setId(rs.getInt("id"));
+                sala.setNumero(rs.getInt("numero"));
+                sala.setQuantidadeAssentos(rs.getInt("quantidadeAssentos"));
+                
+                result.add(sala);
             }
             logger.debug("Consulta executada com sucesso");
         } catch (Exception e) {

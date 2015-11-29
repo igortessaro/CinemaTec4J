@@ -42,7 +42,29 @@ public class FilmeRepository extends CrudBD<Filme>{
 
     @Override
     public void delete(Filme entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection conn = null;
+        try {
+            conn = abrirConexao();
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("DELETE FROM ");
+            sql.append(" filme  ");
+            sql.append(" WHERE ");
+            sql.append(" id = ? ");
+
+            PreparedStatement pstm = conn.prepareStatement(sql.toString());
+            pstm.setInt(1, entity.getId());
+
+            logger.debug("Excluido: " + entity);
+            pstm.execute();
+            commitTransacao(conn);
+            logger.debug("Excluido com sucesso");
+        } catch (Exception e) {
+            rollbackTransacao(conn);
+            throw new RuntimeException(e);
+        } finally {
+            fecharConexao(conn);
+        }
     }
 
     @Override
@@ -52,9 +74,8 @@ public class FilmeRepository extends CrudBD<Filme>{
 
     @Override
     public void update(Filme entity) {
-        //PreparedStatement pstm = conn.prepareStatement("UPDATE FROM filme SET nome = ?, genero = ?, sinopse = ? WHERE id = ?");
-        
         Connection conn = null;
+        
         try {
             conn = abrirConexao();
 

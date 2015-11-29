@@ -40,7 +40,11 @@ public class SecaoService extends CrudBD<Secao>{
     @Override
     public List<Secao> search(String search) {
         return this.repository.search(search);
-    }    
+    } 
+    
+    public List<Secao> obterTodos(){
+        return this.repository.searchAll();
+    }
     
     private void validateRules(Secao entity, TypeOperation operation){
         switch(operation){

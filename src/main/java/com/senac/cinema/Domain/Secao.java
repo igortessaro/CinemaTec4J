@@ -1,20 +1,26 @@
 package com.senac.cinema.Domain;
 
+import com.jdf.swing.helper.jtable.JTableColumnMetadata;
 import java.util.Date;
 
 public class Secao {
+    @JTableColumnMetadata(name = "Código")
     private int id;
     
     private int salaId;
     
     private int filmeId;
     
+    @JTableColumnMetadata(name = "Data Hora Inicio")
     private Date dataHoraInicio;
     
+    @JTableColumnMetadata(name = "Tempo de Duração")
     private int tempoDuracaoMinutos;
     
+    @JTableColumnMetadata(name = "Filme")
     private Filme filme;
     
+    @JTableColumnMetadata(name = "Sala")
     private Sala sala;
 
     public int getId() {

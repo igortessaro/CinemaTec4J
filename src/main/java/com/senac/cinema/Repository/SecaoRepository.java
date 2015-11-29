@@ -51,7 +51,28 @@ public class SecaoRepository extends CrudBD<Secao>{
 
     @Override
     public void delete(Secao entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection conn = null;
+        try {
+            conn = abrirConexao();
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("DELETE FROM secao  ");
+            sql.append("WHERE  ");
+            sql.append("id = ?  ");
+
+            PreparedStatement pstm = conn.prepareStatement(sql.toString());
+            pstm.setInt(1, entity.getId());
+
+            logger.debug("Excluido: " + entity);
+            pstm.execute();
+            commitTransacao(conn);
+            logger.debug("Excluido com sucesso");
+        } catch (Exception e) {
+            rollbackTransacao(conn);
+            throw new RuntimeException(e);
+        } finally {
+            fecharConexao(conn);
+        }
     }
 
     @Override
@@ -61,7 +82,36 @@ public class SecaoRepository extends CrudBD<Secao>{
 
     @Override
     public void update(Secao entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection conn = null;
+        try {
+            conn = abrirConexao();
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("UPDATE secao  ");
+            sql.append("SET  ");
+            sql.append(" salaId = ? ");
+            sql.append(", filmeId = ? ");
+            sql.append(", tempoDuracaoMinutos = ? ");
+            sql.append(", dataHoraInicio = ? ");
+            sql.append(" WHERE id = ? ");            
+
+            PreparedStatement pstm = conn.prepareStatement(sql.toString());
+            pstm.setInt(1, entity.getSalaId());
+            pstm.setInt(2, entity.getFilmeId());
+            pstm.setInt(3, entity.getTempoDuracaoMinutos());
+            pstm.setDate(4, new java.sql.Date(entity.getDataHoraInicio().getTime()));  
+            pstm.setInt(5, entity.getId());
+
+            logger.debug("Atualizado: " + entity);
+            pstm.execute();
+            commitTransacao(conn);
+            logger.debug("Atualizado com sucesso");
+        } catch (Exception e) {
+            rollbackTransacao(conn);
+            throw new RuntimeException(e);
+        } finally {
+            fecharConexao(conn);
+        }
     }
 
     @Override

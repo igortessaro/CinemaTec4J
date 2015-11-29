@@ -46,4 +46,9 @@ public class Filme {
     public void setSinopse(String sinopse) {
         this.sinopse = sinopse;
     }
+    
+    @Override
+    public String toString(){
+        return String.format("Filme - [Id: %s - Nome: %s]", this.id, this.nome);
+    }
 }

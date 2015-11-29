@@ -10,6 +10,7 @@ import com.senac.cinema.Service.SalaService;
 import com.senac.cinema.Service.SecaoService;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 public class SecaoController extends BaseController {
@@ -91,5 +92,23 @@ public class SecaoController extends BaseController {
         } catch (Exception e) {
             ExceptionDefaultMessage.messageError(e.getMessage());
         }
+    }
+    
+    public void excluir(int codigo){
+        Secao entity = new Secao();
+        entity.setId(codigo);
+        this.service.delete(entity);
+    }
+    
+    public void adicionar(Secao entity){
+        this.service.save(entity);
+    }
+    
+    public void atualizar(Secao entity){
+        this.service.update(entity);
+    }
+    
+    public List<Secao> obterTodos(){
+        return this.service.obterTodos();
     }
 }

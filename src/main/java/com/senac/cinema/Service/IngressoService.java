@@ -86,4 +86,8 @@ public class IngressoService extends CrudBD<Ingresso>{
     private void validateUpdate(Ingresso entity){
         
     }
+
+    public List<Ingresso> searchAll() {
+        return this.repository.searchAll();
+    }
 }

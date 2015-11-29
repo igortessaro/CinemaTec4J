@@ -7,6 +7,9 @@ package com.senac.cinema.Init;
 
 import com.jdf.swing.helper.JFrameHelper;
 import com.senac.cinema.swing.jiFrameFilme;
+import com.senac.cinema.swing.jiFrameSala;
+import com.senac.cinema.swing.jiFrameSecao;
+import com.senac.cinema.swing.jiFrameVenda;
 
 /**
  *
@@ -66,6 +69,11 @@ public class jFrameMain extends javax.swing.JFrame {
         menuVenda.setText("Venda");
 
         menuVendaItemIngresso.setText("Ingressos");
+        menuVendaItemIngresso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVendaItemIngressoActionPerformed(evt);
+            }
+        });
         menuVenda.add(menuVendaItemIngresso);
 
         menuPrincipal.add(menuVenda);
@@ -85,6 +93,11 @@ public class jFrameMain extends javax.swing.JFrame {
         menuSala.setText("Sala");
 
         menuSalaItemManutencao.setText("Manutenção");
+        menuSalaItemManutencao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSalaItemManutencaoActionPerformed(evt);
+            }
+        });
         menuSala.add(menuSalaItemManutencao);
 
         menuPrincipal.add(menuSala);
@@ -92,6 +105,11 @@ public class jFrameMain extends javax.swing.JFrame {
         menuSecao.setText("Seção");
 
         menuSecaoItemManutencao.setText("Manutenção");
+        menuSecaoItemManutencao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSecaoItemManutencaoActionPerformed(evt);
+            }
+        });
         menuSecao.add(menuSecaoItemManutencao);
 
         menuPrincipal.add(menuSecao);
@@ -136,6 +154,24 @@ public class jFrameMain extends javax.swing.JFrame {
         desktopMain.add(ff);
         ff.setVisible(true);        
     }//GEN-LAST:event_menuFilmeItemManutencaoActionPerformed
+
+    private void menuSalaItemManutencaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalaItemManutencaoActionPerformed
+        jiFrameSala fs = new jiFrameSala();
+        desktopMain.add(fs);
+        fs.setVisible(true);
+    }//GEN-LAST:event_menuSalaItemManutencaoActionPerformed
+
+    private void menuSecaoItemManutencaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSecaoItemManutencaoActionPerformed
+        jiFrameSecao fs = new jiFrameSecao();
+        desktopMain.add(fs);
+        fs.setVisible(true);
+    }//GEN-LAST:event_menuSecaoItemManutencaoActionPerformed
+
+    private void menuVendaItemIngressoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVendaItemIngressoActionPerformed
+        jiFrameVenda fs = new jiFrameVenda();
+        desktopMain.add(fs);
+        fs.setVisible(true);
+    }//GEN-LAST:event_menuVendaItemIngressoActionPerformed
 
     /**
      * @param args the command line arguments

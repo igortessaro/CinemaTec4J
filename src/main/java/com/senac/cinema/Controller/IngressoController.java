@@ -7,6 +7,7 @@ import com.senac.cinema.Domain.Secao;
 import com.senac.cinema.Service.IngressoService;
 import com.senac.cinema.Service.SecaoService;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 public class IngressoController extends BaseController{
@@ -56,4 +57,12 @@ public class IngressoController extends BaseController{
             ExceptionDefaultMessage.messageError(e.getMessage());
         }
     }    
+
+    public List<Ingresso> obterTodos() {
+        return this.service.searchAll();
+    }
+
+    public void salvar(Ingresso ingresso) {
+        service.save(ingresso);
+    }
 }

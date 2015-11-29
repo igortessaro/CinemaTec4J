@@ -58,7 +58,6 @@ public class IngressoRepository extends CrudBD<Ingresso>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }   
     
-    /*
     public List<Ingresso> searchAll(){
         List<Ingresso> ingressoList = new ArrayList<>();
         
@@ -66,21 +65,20 @@ public class IngressoRepository extends CrudBD<Ingresso>{
         try {
             conn = abrirConexao();
 
-            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM filme");
+            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM ingresso");
 
-            logger.debug("Consultando todos filmes. ");
+            logger.debug("Consultando todos ingressos. ");
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
                 logger.debug("Registro encontrado");
                 Ingresso result = new Ingresso();
                 
-                filmeResult.setId(rs.getInt("id"));
-                filmeResult.setNome(rs.getString("nome"));
-                filmeResult.setGenero(Genero.fromInteger(rs.getInt("genero")));
-                filmeResult.setSinopse(rs.getString("sinopse"));
+                result.setId(rs.getInt("id"));
+                result.setSecaoId(rs.getInt("secaoId"));
+                result.setValor(rs.getDouble("valor"));
                 
-                filmeList.add(filmeResult);
+                ingressoList.add(result);
             }
             logger.debug("Consulta executada com sucesso");
         } catch (Exception e) {
@@ -89,7 +87,5 @@ public class IngressoRepository extends CrudBD<Ingresso>{
             fecharConexao(conn);
         }        
         
-        return filmeList;
+        return ingressoList;
     }
-    */
-}

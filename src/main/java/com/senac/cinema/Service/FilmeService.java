@@ -75,8 +75,7 @@ public class FilmeService extends CrudBD<Filme>{
     }
     
     private void validateInsert(Filme entity){
-        if(entity == null)
-            throw new IllegalArgumentException("Filme não informado.");
+        this.validateDefault(entity);
         
         if(entity.getId() > 0)
             throw new IllegalArgumentException("Filme não deve possuir ID.");
@@ -84,14 +83,29 @@ public class FilmeService extends CrudBD<Filme>{
         List<Filme> filmeList = this.repository.search(entity.getNome());
         
         if(filmeList != null && filmeList.size() > 0)
-            throw new IllegalArgumentException("Filme já existente.");
+            throw new IllegalArgumentException("Filme já existente."); 
     }
     
     private void validateDelete(Filme entity){
-        
+        if(entity.getId() == 0)
+            throw new IllegalArgumentException("ID do filme não informado.");
     }
     
     private void validateUpdate(Filme entity){
+        this.validateDefault(entity);
+    }
+    
+    private void validateDefault(Filme entity){        
+        if(entity == null)
+            throw new IllegalArgumentException("Filme não informado.");
         
+        if(entity.getGenero() == null)
+            throw new IllegalArgumentException("Genero não informado.");
+        
+        if(entity.getNome() == null || entity.getNome().isEmpty())
+            throw new IllegalArgumentException("Nome não informado.");
+        
+        if(entity.getSinopse() == null || entity.getSinopse().isEmpty())
+            throw new IllegalArgumentException("Sinopse não informado.");
     }
 }

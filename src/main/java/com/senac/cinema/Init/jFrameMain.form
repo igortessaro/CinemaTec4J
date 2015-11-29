@@ -13,6 +13,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ingressos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuVendaItemIngressoActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -40,6 +43,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Manuten&#xe7;&#xe3;o"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuSalaItemManutencaoActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -52,6 +58,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Manuten&#xe7;&#xe3;o"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuSecaoItemManutencaoActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

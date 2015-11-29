@@ -1,9 +1,11 @@
 package com.senac.cinema.swing;
 
+import com.jdf.swing.helper.JComboBoxHelper;
 import com.jdf.swing.helper.jtable.JTableHelper;
 import com.senac.cinema.Controller.FilmeController;
 import com.senac.cinema.Domain.Filme;
 import com.senac.cinema.Domain.Genero;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -14,6 +16,9 @@ public class jiFrameFilme extends javax.swing.JInternalFrame {
 
     public jiFrameFilme() {
         initComponents();
+
+        JComboBoxHelper chGenero = new JComboBoxHelper(cbGenero);
+        chGenero.setModel(Arrays.asList(Genero.values()));
 
         this.controller = new FilmeController();
         tableHelper = new JTableHelper<>(tbFilmes);
@@ -45,6 +50,7 @@ public class jiFrameFilme extends javax.swing.JInternalFrame {
         lblSinopse = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtSinopse = new javax.swing.JTextArea();
+        btnExcluir = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -113,19 +119,28 @@ public class jiFrameFilme extends javax.swing.JInternalFrame {
         txtSinopse.setRows(5);
         jScrollPane1.setViewportView(txtSinopse);
 
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPaneFilmes, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
+            .addComponent(scrollPaneFilmes, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtPesquisa)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -171,14 +186,15 @@ public class jiFrameFilme extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblSinopse)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addComponent(scrollPaneFilmes, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnLimpar)
                     .addComponent(btnPesquisar)
-                    .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExcluir))
                 .addGap(19, 19, 19))
         );
 
@@ -196,31 +212,6 @@ public class jiFrameFilme extends javax.swing.JInternalFrame {
     private void tbFilmesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbFilmesMouseClicked
         txtCodigo.setText(String.format("%s", tableHelper.getSelectedObject().getId()));
         txtNome.setText(tableHelper.getSelectedObject().getNome());
-        /*
-        String generoString;
-        generoString = "(Selecione)";
-        
-        switch(tableHelper.getSelectedObject().getGenero()){
-              case Acao:
-                generoString = "Acao";
-            case Aventura:
-                generoString = "Aventura";
-            case Comedia:
-                generoString = "Comedia";
-            case Drama:
-                generoString = "Drama";
-            case Ficcao:
-                generoString = "Ficcao";
-            case Romance:
-                generoString = "Romance";
-            case Suspense:
-                generoString = "Suspense";
-            case Terror:
-                generoString = "Terror";
-            default:
-                throw new IllegalArgumentException("Gênero não encontrado!");
-        }*/
-        
         cbGenero.setSelectedItem(tableHelper.getSelectedObject().getGenero());
         txtSinopse.setText(tableHelper.getSelectedObject().getSinopse());
     }//GEN-LAST:event_tbFilmesMouseClicked
@@ -265,12 +256,38 @@ public class jiFrameFilme extends javax.swing.JInternalFrame {
         filme.setNome(txtNome.getText());
         filme.setSinopse(txtSinopse.getText());
 
-        if (filme.getId() > 0) {
-            controller.atualizar(filme);
-        } else {
-            controller.adicionar(filme);
+        try {
+            if (filme.getId() > 0) {
+                controller.atualizar(filme);
+                JOptionPane.showMessageDialog(this, "Filme atualizado com sucesso.");
+            } else {
+                controller.adicionar(filme);
+                JOptionPane.showMessageDialog(this, "Filme salvo com sucesso.");
+            }
+
+            this.pesquisarFilmes(null);
+            this.btnLimparActionPerformed(null);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        String idString = txtCodigo.getText();
+
+        if (idString != null && !idString.isEmpty()) {
+            int codigo = Integer.parseInt(idString);
+
+            try {
+                controller.excluir(codigo);
+                JOptionPane.showMessageDialog(this, "Filme excluido com sucesso.");
+                this.pesquisarFilmes(null);
+                this.btnLimparActionPerformed(null);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void pesquisarFilmesPorNome() {
         String nome = txtPesquisa.getText();
@@ -294,6 +311,7 @@ public class jiFrameFilme extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JToggleButton btnLimpar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JToggleButton btnSalvar;
